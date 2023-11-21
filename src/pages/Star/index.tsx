@@ -24,20 +24,20 @@ const CREATE_COMPANY_LOGO_URL = "my/company/logo";
 const Star: FC<TypeStar> = () => {
   const [step, setStep] = useState(1);
   const [errForm, setErrForm] = useState('');
-  const [sending,setSending] = useState(false);
-  const [success,setSuccess] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [urlImg, setUrlImg] = useState('https://thumbs.dreamstime.com/z/realty-flat-apartment-modern-building-logo-design-graphic-style-realty-flat-apartment-modern-building-logo-design-graphic-style-158041756.jpg');
 
-  const [showPassword,setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const inputPassword = useRef(null)
 
   const refFormCompany = useRef(null)
 
-  const [user,setUser]  = useState<User>({
-    type : 'ENTREPRISE'
+  const [user, setUser] = useState<User>({
+    type: 'ENTREPRISE'
   })
 
-  const [company,setCompany]  = useState<Company>({
+  const [company, setCompany] = useState<Company>({
     tel: null
   })
 
@@ -45,7 +45,7 @@ const Star: FC<TypeStar> = () => {
   const dispatch = useDispatch()
   // const auth = useSelector((state: any) => state.auth)
 
-      //
+  //
   const navigate = useNavigate()
 
   const next = () => {
@@ -66,65 +66,65 @@ const Star: FC<TypeStar> = () => {
       setUrlImg('https://thumbs.dreamstime.com/z/realty-flat-apartment-modern-building-logo-design-graphic-style-realty-flat-apartment-modern-building-logo-design-graphic-style-158041756.jpg');
       return;
     }
-    setCompany({...company,photo: file})
+    setCompany({ ...company, photo: file })
     let url = URL.createObjectURL(file);
     setUrlImg(url);
   };
 
   const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
-    if(errForm) setErrForm('');
+    if (errForm) setErrForm('');
 
     switch (e.target.name) {
       case 'firstname':
-        setUser({...user,firstname : e.target.value})
+        setUser({ ...user, firstname: e.target.value })
         break;
       case 'lastname':
-        setUser({...user,lastname : e.target.value})
+        setUser({ ...user, lastname: e.target.value })
         break;
       case 'email':
-        setUser({...user,email : e.target.value})
+        setUser({ ...user, email: e.target.value })
         break;
       case 'tel':
-        setUser({...user,tel : e.target.value})
+        setUser({ ...user, tel: e.target.value })
         break;
       case 'password':
-        setUser({...user,password : e.target.value})
+        setUser({ ...user, password: e.target.value })
         break;
       case 'active':
-          setUser({...user,active : e.target.checked === true})
-          break;
+        setUser({ ...user, active: e.target.checked === true })
+        break;
       default:
-        setUser({...user,password_confirmation : e.target.value})
+        setUser({ ...user, password_confirmation: e.target.value })
         break;
     }
   }
 
-  const handleOnchangeTwo = (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+  const handleOnchangeTwo = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     switch (e.target.name) {
       case 'name':
-        setCompany({...company,name : e.target.value})
+        setCompany({ ...company, name: e.target.value })
         break;
       case 'email':
-        setCompany({...company,email : e.target.value})
-          break;
+        setCompany({ ...company, email: e.target.value })
+        break;
       case 'address':
-        setCompany({...company,address : e.target.value})
-          break;
+        setCompany({ ...company, address: e.target.value })
+        break;
       case 'tel':
-        setCompany({...company,tel : e.target.value})
-          break;
+        setCompany({ ...company, tel: e.target.value })
+        break;
       case 'description':
-        setCompany({...company,description : e.target.value})
-          break;
+        setCompany({ ...company, description: e.target.value })
+        break;
       case 'country':
-        setCompany({...company,country : e.target.value})
-          break;
+        setCompany({ ...company, country: e.target.value })
+        break;
       case 'city':
-        setCompany({...company,city : e.target.value})
-          break;
+        setCompany({ ...company, city: e.target.value })
+        break;
       case 'number_of_employees':
-        setCompany({...company,number_of_employees : e.target.value})
-          break;
+        setCompany({ ...company, number_of_employees: e.target.value })
+        break;
     }
   }
 
@@ -141,15 +141,15 @@ const Star: FC<TypeStar> = () => {
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSending(true)
-    axiosCustum.post(REGISTER_URL,user)
+    axiosCustum.post(REGISTER_URL, user)
       .then(res => {
-        
+
         // dispatch(setAuth(res.data))
         // Storage.setStorage('auth',res.data)
 
         toast.success(res.data.message)
-        
-        axiosCustum.post(`${CREATE_COMPANY_URL}/${res.data.user.id}`,company)
+
+        axiosCustum.post(`${CREATE_COMPANY_URL}/${res.data.user.id}`, company)
           .then(res => {
             toast.success(res.data.message)
 
@@ -162,24 +162,24 @@ const Star: FC<TypeStar> = () => {
             // })
 
             // logo 
-            
-            if(typeof company.photo !== 'undefined'){
-              let formData = new FormData()
-              formData.append('photo',company.photo);
 
-              axiosCustum.post(`${CREATE_COMPANY_LOGO_URL}/${res.data.company_id}`,formData)
-                .then( res2 => {
+            if (typeof company.photo !== 'undefined') {
+              let formData = new FormData()
+              formData.append('photo', company.photo);
+
+              axiosCustum.post(`${CREATE_COMPANY_LOGO_URL}/${res.data.company_id}`, formData)
+                .then(res2 => {
                   setSuccess(true)
-                  setSending(false);                  
+                  setSending(false);
                 })
-            }else{
+            } else {
               setSuccess(true)
               setSending(false)
             }
-            
-           
+
+
             // navigate('/dashboard')
-            
+
           })
           .catch(err => {
             console.log(err);
@@ -193,7 +193,7 @@ const Star: FC<TypeStar> = () => {
         toast.error(err.response?.data?.message || err.message)
         console.log(err)
       })
-    
+
   }
 
   return (
@@ -217,7 +217,7 @@ const Star: FC<TypeStar> = () => {
             </div>
             <div className="sm:text-sm xl:text-md text-gray-200 font-normal" style={{ textShadow: '1px 1px 20px black' }}>
               {" "}
-              Choisissez un logiciel fait pour vos besoins . De la gestion commerciale à la gestion comptable, <span className="text-primary bg-white bg-opacity-50 px-1 py-1 font-bold">gm smart</span> vous aide et vous accompagne tout au long de la croissance de votre entreprise . Des interfaces intuitives et ergonomie pour un manipulation simple 
+              Choisissez un logiciel fait pour vos besoins . De la gestion commerciale à la gestion comptable, <span className="text-primary bg-white bg-opacity-50 px-1 py-1 font-bold">gm smart</span> vous aide et vous accompagne tout au long de la croissance de votre entreprise . Des interfaces intuitives et ergonomie pour un manipulation simple
             </div>
           </div>
           <ul className="circles">
@@ -258,7 +258,7 @@ const Star: FC<TypeStar> = () => {
                         Prénom
                       </label>
                       <input
-                        onChange={handleOnchange} 
+                        onChange={handleOnchange}
                         name='firstname'
                         min={3}
                         value={user.firstname || ''}
@@ -273,7 +273,7 @@ const Star: FC<TypeStar> = () => {
                         Nom
                       </label>
                       <input
-                        onChange={handleOnchange} 
+                        onChange={handleOnchange}
                         name='lastname'
                         min={3}
                         value={user.lastname || ''}
@@ -289,7 +289,7 @@ const Star: FC<TypeStar> = () => {
                       Email
                     </label>
                     <input
-                      onChange={handleOnchange} 
+                      onChange={handleOnchange}
                       name='email'
                       value={user.email || ''}
                       className=" w-full focus:ring-0 border-t-0 border-x-0  px-4 py-2 border-b text-sm border-gray-300 focus:outline-none  focus:border-indigo-500"
@@ -305,7 +305,7 @@ const Star: FC<TypeStar> = () => {
                     <div className="relative">
                       <input
                         ref={inputPassword}
-                        onChange={handleOnchange} 
+                        onChange={handleOnchange}
                         min={2}
                         name='password'
                         value={user.password || ''}
@@ -314,18 +314,18 @@ const Star: FC<TypeStar> = () => {
                         placeholder="Entrer votre mot de passe"
                         required
                       />
-                      <span onClick={_=>{
-                        if(inputPassword.current){
-                          if((inputPassword.current as any).type === 'text'){
-                                (inputPassword.current as any).type = 'password'
-                                setShowPassword(false)
-                              }else {
-                                (inputPassword.current as any).type = 'text'
-                                setShowPassword(true)
-                              }
-                            }
-                          }} className=" text-[#5c3652] text-xl cursor-pointer absolute top-1/2 -translate-y-1/2 right-2">
-                        {showPassword ? <FaEyeSlash /> : <FaEye/>}
+                      <span onClick={_ => {
+                        if (inputPassword.current) {
+                          if ((inputPassword.current as any).type === 'text') {
+                            (inputPassword.current as any).type = 'password'
+                            setShowPassword(false)
+                          } else {
+                            (inputPassword.current as any).type = 'text'
+                            setShowPassword(true)
+                          }
+                        }
+                      }} className=" text-[#5c3652] text-xl cursor-pointer absolute top-1/2 -translate-y-1/2 right-2">
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
                       </span>
                     </div>
                   </div>
@@ -457,90 +457,90 @@ const Star: FC<TypeStar> = () => {
             )}
             {step === 3 && (
               <>
-              <form ref={refFormCompany} onSubmit={sumitFormTwo} className="mt-0 relative">
-                <div className="relative flex justify-between items-start space-x-6 mt-4">
-                  <div className="w-1/2">
-                    <span className="uppercase font-bold text-sm">logo de votre entreprise</span>
-                    <label htmlFor="image" className="w-full h-[200px] inline-block cursor-pointer shadow-lg border-4 rounded-md relative overflow-hidden">
-                      <img src={urlImg} alt='product' className="absolute h-full w-full object-cover" />
-                      <div className="absolute flex items-center justify-center text-3xl uppercase font-bold text-white top-0 bottom-0 left-0 right-0 bg-gray-700 bg-opacity-20 z-20">
-                        Cliquez ici
-                      </div>
-                    </label>
+                <form ref={refFormCompany} onSubmit={sumitFormTwo} className="mt-0 relative">
+                  <div className="relative flex justify-between items-start space-x-6 mt-4">
+                    <div className="w-1/2">
+                      <span className="uppercase font-bold text-sm">logo de votre entreprise</span>
+                      <label htmlFor="image" className="w-full h-[200px] inline-block cursor-pointer shadow-lg border-4 rounded-md relative overflow-hidden">
+                        <img src={urlImg} alt='product' className="absolute h-full w-full object-cover" />
+                        <div className="absolute flex items-center justify-center text-3xl uppercase font-bold text-white top-0 bottom-0 left-0 right-0 bg-gray-700 bg-opacity-20 z-20">
+                          Cliquez ici
+                        </div>
+                      </label>
 
-                    <input
-                      accept="image/*"
-                      name="image"
-                      onChange={handleChangImageFile}
-                      type="file"
-                      id="image"
-                      hidden
-                      className="hidden"
-                    />
+                      <input
+                        accept="image/*"
+                        name="image"
+                        onChange={handleChangImageFile}
+                        type="file"
+                        id="image"
+                        hidden
+                        className="hidden"
+                      />
+                    </div>
+
+                    <div className="w-1/2 overflow-hidden">
+                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                        Téléphone
+                      </label>
+                      <input
+                        onChange={handleOnchangeTwo}
+                        name='tel'
+                        value={company.tel || ''}
+                        className=" w-full border-none px-4 py-2 text-sm ring-0 focus:ring-0 focus:border-none focus:outline-none "
+                        type="tel"
+                        placeholder="(+237) Numéro de tél.."
+                        required
+                      />
+                      <span className="h-[1px] -translate-y-3 w-full bg-gray-500 rounded-md inline-block"></span>
+                    </div>
                   </div>
-                  
-                  <div className="w-1/2 overflow-hidden">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      Téléphone
-                    </label>
-                    <input
-                      onChange={handleOnchangeTwo}
-                      name='tel'
-                      value={company.tel || ''}
-                      className=" w-full border-none px-4 py-2 text-sm ring-0 focus:ring-0 focus:border-none focus:outline-none "
-                      type="tel"
-                      placeholder="(+237) Numéro de tél.."
-                      required
-                    />
-                    <span className="h-[1px] -translate-y-3 w-full bg-gray-500 rounded-md inline-block"></span>
+                  <div className="relative flex justify-between items-start space-x-6 mt-4">
+
+                    <div className="w-full overflow-hidden">
+                      <label className="text-sm font-bold text-gray-700 tracking-wide">
+                        Description de l’entreprise
+                      </label>
+                      <textarea onChange={handleOnchangeTwo} value={company.description || ''} placeholder="Entrer la description de votre entreprise ..." name="description" id="" cols={4} rows={4} className=' w-full shadow-md border-2 rounded-md border-gray-300 focus:border-2 focus:border-gray-300 px-4 py-2 text-sm ring-0 focus:ring-0  focus:outline-none'></textarea>
+                    </div>
                   </div>
-                </div>
-                <div className="relative flex justify-between items-start space-x-6 mt-4">
-                
-                  <div className="w-full overflow-hidden">
-                    <label className="text-sm font-bold text-gray-700 tracking-wide">
-                      Description de l’entreprise
-                    </label>
-                    <textarea onChange={handleOnchangeTwo} value={company.description || ''} placeholder="Entrer la description de votre entreprise ..." name="description" id="" cols={4} rows={4} className=' w-full shadow-md border-2 rounded-md border-gray-300 focus:border-2 focus:border-gray-300 px-4 py-2 text-sm ring-0 focus:ring-0  focus:outline-none'></textarea>
+                  <div className="pt-8 flex items-center justify-center space-x-4">
+                    <button
+                      onClick={(_) => prev()}
+                      className=" items-center  flex justify-center min-w-[240px] bg-gradient-to-r from-[#ac3265] to-[#ac3265ee]  hover:bg-gradient-to-l hover:from-gray-700 hover:to-gray-600 text-gray-100 px-6 py-2  rounded-md tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
+                    >
+                      <HiArrowLeft className="text-xl mr-4 text-white" />{" "}
+                      <span>Etape précédente</span>
+                    </button>
+                    <button
+                      type="submit"
+                      className=" items-center  flex justify-center min-w-[240px] bg-gradient-to-r from-[#ac3265] to-[#ac3265ee]  hover:bg-gradient-to-l hover:from-gray-700 hover:to-gray-600 text-gray-100 px-6 py-2  rounded-md tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
+                    >
+                      <span>Etape suivante</span>{" "}
+                      <HiArrowRight className="text-xl ml-4 text-white" />
+                    </button>
                   </div>
-                </div>
-                <div className="pt-8 flex items-center justify-center space-x-4">
-                  <button
-                    onClick={(_) => prev()}
-                    className=" items-center  flex justify-center min-w-[240px] bg-gradient-to-r from-[#ac3265] to-[#ac3265ee]  hover:bg-gradient-to-l hover:from-gray-700 hover:to-gray-600 text-gray-100 px-6 py-2  rounded-md tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
-                  >
-                    <HiArrowLeft className="text-xl mr-4 text-white" />{" "}
-                    <span>Etape précédente</span>
-                  </button>
-                  <button
-                    type="submit"
-                    className=" items-center  flex justify-center min-w-[240px] bg-gradient-to-r from-[#ac3265] to-[#ac3265ee]  hover:bg-gradient-to-l hover:from-gray-700 hover:to-gray-600 text-gray-100 px-6 py-2  rounded-md tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
-                  >
-                    <span>Etape suivante</span>{" "}
-                    <HiArrowRight className="text-xl ml-4 text-white" />
-                  </button>
-                </div>
-              </form>
-                
+                </form>
+
               </>
             )}
             {step === 4 && (
               <>
                 <form onSubmit={submitForm} className="mt-0 relative">
-                  
-                  {success ? 
+
+                  {success ?
                     <div className="p-6 bg-green-100 text-green-500 shadow rounded-md text-3xl font-bold text-center first-letter:text-primary">
                       Merci pour votre inscription. Notre équipe vous contactera pour la validation de vos accès
-                    </div>:
+                    </div> :
                     <div className="p-3 bg-gray-700 text-white text-center font-bold rounded-sm">
                       <div className="flex items-center justify-center">
-                        <AiFillCheckCircle className="mr-3 text-2xl" /> <span>corfirmation </span>
+                        <AiFillCheckCircle className="mr-3 text-4xl" /> <span>corfirmation </span>
                       </div>
                     </div>
                   }
 
                   {!success && <button className={`px-6 justify-center ${sending && 'disabled'} items-center flex py-3 font-bold hover:bg-green-800 transition bg-green-700 border-4 rounded-full mt-3 min-w-[250px] mx-auto text-white`}>
-                    {sending ? <Loader className="text-2xl" />:'Confirmer l’enregistrement de mon compte'}
+                    {sending ? <Loader className="text-2xl" /> : 'Confirmer l’enregistrement de mon compte'}
                   </button>}
 
                   {success && <Link to='/' className={`px-6 justify-center items-center flex py-3 font-bold hover:bg-green-800 transition bg-green-700 border-4 rounded-full mt-3 min-w-[250px] mx-auto text-white`}>
@@ -570,8 +570,8 @@ const Star: FC<TypeStar> = () => {
             <p className="flex flex-col absolute -bottom-10 text-sm font-bold underline text-[#ac3265] w-full z-20 right-0 items-center justify-center mt-0 text-center text-md italic">
               <span>Home page</span>
             </p>
-              
-            
+
+
           </div>
         </div>
       </div>

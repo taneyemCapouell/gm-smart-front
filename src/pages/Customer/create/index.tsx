@@ -66,9 +66,8 @@ const AddCustomer: FC<TypeAddCustomer> = () => {
       http_client(Storage.getStorage("auth").token)
         .post(
           companiesStore.currentCompany
-            ? `${GET_CUSTOMER_URL}/${parseInt(action || "0", 10)}?id=${
-                companiesStore?.currentCompany?.id
-              }`
+            ? `${GET_CUSTOMER_URL}/${parseInt(action || "0", 10)}?id=${companiesStore?.currentCompany?.id
+            }`
             : `${GET_CUSTOMER_URL}/${parseInt(action || "0", 10)}`,
           customer
         )
@@ -117,9 +116,8 @@ const AddCustomer: FC<TypeAddCustomer> = () => {
       http_client(Storage.getStorage("auth").token)
         .get(
           companiesStore.currentCompany
-            ? `${GET_CUSTOMER_URL}/${parseInt(action, 10)}?id=${
-                companiesStore?.currentCompany?.id
-              }`
+            ? `${GET_CUSTOMER_URL}/${parseInt(action, 10)}?id=${companiesStore?.currentCompany?.id
+            }`
             : `${GET_CUSTOMER_URL}/${parseInt(action, 10)}`
         )
         .then((res) => {
@@ -129,7 +127,7 @@ const AddCustomer: FC<TypeAddCustomer> = () => {
           console.log(err);
         });
     }
-  }, [action,companiesStore,navigate]);
+  }, [action, companiesStore, navigate]);
 
   return (
     <DashboardLayout
@@ -277,9 +275,8 @@ const AddCustomer: FC<TypeAddCustomer> = () => {
               <div className="flex items-center justify-end">
                 <button
                   type="submit"
-                  className={`px-4 ${
-                    sending && "disabled"
-                  } flex justify-center items-center py-[0.48rem] bg-[#ac3265] hover:bg-[#951f50] transition min-w-[200px] text-white text-sm font-semibold rounded-md`}
+                  className={`px-4 ${sending && "disabled"
+                    } flex justify-center items-center py-[0.48rem] bg-[#ac3265] hover:bg-[#951f50] transition min-w-[200px] text-white text-sm font-semibold rounded-md`}
                 >
                   {sending ? (
                     <Loader className=" inline-block text-xl" />

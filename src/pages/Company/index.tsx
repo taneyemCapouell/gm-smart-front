@@ -184,8 +184,6 @@ const Company: FC<TypeCompany> = () => {
             navigate(`/companies`);
             window.clearTimeout(id);
           }, 6000);
-
-          
         })
         .catch((err) => {
           console.log(err);

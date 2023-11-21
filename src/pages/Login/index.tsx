@@ -69,6 +69,7 @@ const Login: FC<LoginType> = () => {
         setLoading(false);
         if (res.data.error) {
           setErrorMessage(res.data.error);
+          console.log(res.data);
           dispatch(switchToAdmin());
         } else {
           dispatch(setAuth(res.data));
@@ -76,7 +77,7 @@ const Login: FC<LoginType> = () => {
           Storage.setStorage("auth", res.data);
         }
       })
-      .catch((err: any) => {
+      .catch((err) => {
         setLoading(false);
         setErrorMessage(err.response?.data?.message || err.message);
         console.log(err);
@@ -167,9 +168,8 @@ const Login: FC<LoginType> = () => {
           <div className="text-center mt-6">
             <button
               type="submit"
-              className={`${
-                loading ? "disabled" : ""
-              } py-3 active:scale-[98%] text-center inline-flex justify-center items-center w-64 text-xl text-white bg-[#ac3265] rounded-2xl`}
+              className={`${loading ? "disabled" : ""
+                } py-3 active:scale-[98%] text-center inline-flex justify-center items-center w-64 text-xl text-white bg-[#ac3265] rounded-2xl`}
             >
               {!loading ? (
                 "Connexion"

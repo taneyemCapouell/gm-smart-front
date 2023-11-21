@@ -1,14 +1,14 @@
 import Storage from "./Storage"
 
 class Auth {
-  isLogin():boolean{
-    let auth = Storage.getStorage('auth')
-    return auth ? (auth.token && auth.user) : false
+  static isLogin():boolean{
+    const auth = Storage.getStorage('auth')
+    return auth && auth.token && auth.user;
   }
 
-  logout():void{
+  static logout():void{
     Storage.removeStorage('auth')
   }
 }
 
-export default new Auth()
+export default Auth

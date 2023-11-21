@@ -96,10 +96,10 @@ const Dashboard: React.FC<TypeDashboard> = () => {
       roleIs("admin") && !companiesStore.currentCompany
         ? DASHBOARD_ADMIN_USER_URL
         : roleIs("super")
-        ? DASHBOARD_SUPER_USER_URL
-        : companiesStore.currentCompany
-        ? `${DASHBOARD_URL}?id=${companiesStore?.currentCompany?.id}`
-        : DASHBOARD_URL;
+          ? DASHBOARD_SUPER_USER_URL
+          : companiesStore.currentCompany
+            ? `${DASHBOARD_URL}?id=${companiesStore?.currentCompany?.id}`
+            : DASHBOARD_URL;
     http_client(Storage.getStorage("auth").token)
       .get(url)
       .then((res) => {
@@ -207,11 +207,10 @@ const Dashboard: React.FC<TypeDashboard> = () => {
             <>
               <Link
                 to="/companies"
-                className={`flex ${
-                  UserService.getUser().role === "ENTREPRISE" &&
+                className={`flex ${UserService.getUser().role === "ENTREPRISE" &&
                   !UserService.getUser().as_company &&
                   "disabled"
-                }  justify-start text-sm border-4 border-[#7e3151] items-center space-x-2 rounded px-2 py-1 text-white bg-[#ac3265] w-auto ml-3`}
+                  }  justify-start text-sm border-4 border-[#7e3151] items-center space-x-2 rounded px-2 py-1 text-white bg-[#ac3265] w-auto ml-3`}
               >
                 <FaEye className="mr-2" />
                 Voir mes différentes entreprises
@@ -287,42 +286,41 @@ const Dashboard: React.FC<TypeDashboard> = () => {
         {isContains(
           UserService.getAuth().roles || [""],
           "gerant" ||
-            isContains(UserService.getAuth().roles || [""], "user") ||
-            isContains(UserService.getAuth().roles || [""], "caissier")
+          isContains(UserService.getAuth().roles || [""], "user") ||
+          isContains(UserService.getAuth().roles || [""], "caissier")
         ) && (
-          <div
-            className={`flex space-x-4 font-bold items-center ${
-              roleIs("caissier") && "disabled"
-            }`}
-          >
-            {UserService.getUser().role !== "SUPER" && (
-              <Link
-                to="/products/history/all"
-                className="text-sm text-white px-4 rounded-md bg-yellow-400 py-2"
-              >
-                {" "}
-                <TbArrowsRightLeft
-                  size={16}
-                  className="inline-block  mr-1"
-                />{" "}
-                Historiques des entrées sorties produits
-              </Link>
-            )}
-            {UserService.getUser().role !== "SUPER" && (
-              <Link
-                to="/products/procurements"
-                className="text-sm text-white px-4 rounded-md bg-cyan-700 py-2"
-              >
-                {" "}
-                <TbArrowsRightLeft
-                  size={16}
-                  className="inline-block rotate-90 mr-1"
-                />
-                Historique des approvisionnements
-              </Link>
-            )}
-          </div>
-        )}
+            <div
+              className={`flex space-x-4 font-bold items-center ${roleIs("caissier") && "disabled"
+                }`}
+            >
+              {UserService.getUser().role !== "SUPER" && (
+                <Link
+                  to="/products/history/all"
+                  className="text-sm text-white px-4 rounded-md bg-yellow-400 py-2"
+                >
+                  {" "}
+                  <TbArrowsRightLeft
+                    size={16}
+                    className="inline-block  mr-1"
+                  />{" "}
+                  Historiques des entrées sorties produits
+                </Link>
+              )}
+              {UserService.getUser().role !== "SUPER" && (
+                <Link
+                  to="/products/procurements"
+                  className="text-sm text-white px-4 rounded-md bg-cyan-700 py-2"
+                >
+                  {" "}
+                  <TbArrowsRightLeft
+                    size={16}
+                    className="inline-block rotate-90 mr-1"
+                  />
+                  Historique des approvisionnements
+                </Link>
+              )}
+            </div>
+          )}
       </div>
 
       <React.Fragment>
@@ -376,9 +374,8 @@ const Dashboard: React.FC<TypeDashboard> = () => {
               {roleIs("super") && (
                 <Link
                   to="/admins"
-                  className={`bg-white ${
-                    UserService.getUser().role === "SUPER" && "disabled"
-                  } cursor-pointer hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
+                  className={`bg-white ${UserService.getUser().role === "SUPER" && "disabled"
+                    } cursor-pointer hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
                 >
                   <span className="inline-block overflow-hidden">
                     <RiAdminFill className="text-5xl text-[#603d57]" />
@@ -423,9 +420,8 @@ const Dashboard: React.FC<TypeDashboard> = () => {
                 !companiesStore.currentCompany && (
                   <Link
                     to="/companies"
-                    className={`bg-white ${
-                      UserService.getUser().role === "SUPER" && "disabled"
-                    } cursor-pointer hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
+                    className={`bg-white ${UserService.getUser().role === "SUPER" && "disabled"
+                      } cursor-pointer hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
                   >
                     <span className="inline-block overflow-hidden">
                       <BsBuilding className="text-5xl text-[#603d57]" />
@@ -443,105 +439,97 @@ const Dashboard: React.FC<TypeDashboard> = () => {
 
               {((!roleIs("admin") && !roleIs("super")) ||
                 companiesStore.currentCompany) && (
-                <Link
-                  to="/cashiers"
-                  className={`bg-white ${
-                    UserService.getUser().role === "SUPER" && "disabled"
-                  } ${
-                    roleIs("user") && "disabled"
-                  } cursor-pointer hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
-                >
-                  <span className="inline-block overflow-hidden">
-                    <HiCurrencyDollar className="text-5xl text-[#603d57]" />
-                  </span>
-                  <div className="ml-3">
-                    <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
-                      {formatCurrency(
-                        parseInt(
-                          dashboardInfo.totalCash?.toString() || "0",
-                          10
-                        ),
-                        "XAF"
-                      )}
-                    </h1>
-                    <h2 className="text-sm font-bold text-[#603d57]">
-                      Gestion de la caisse
-                    </h2>
-                  </div>
-                </Link>
-              )}
+                  <Link
+                    to="/cashiers"
+                    className={`bg-white ${UserService.getUser().role === "SUPER" && "disabled"
+                      } ${roleIs("user") && "disabled"
+                      } cursor-pointer hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
+                  >
+                    <span className="inline-block overflow-hidden">
+                      <HiCurrencyDollar className="text-5xl text-[#603d57]" />
+                    </span>
+                    <div className="ml-3">
+                      <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
+                        {formatCurrency(
+                          parseInt(
+                            dashboardInfo.totalCash?.toString() || "0",
+                            10
+                          ),
+                          "XAF"
+                        )}
+                      </h1>
+                      <h2 className="text-sm font-bold text-[#603d57]">
+                        Gestion de la caisse
+                      </h2>
+                    </div>
+                  </Link>
+                )}
 
               {((!roleIs("admin") && !roleIs("super")) ||
                 companiesStore.currentCompany) && (
-                <Link
-                  to="/products"
-                  className={`bg-white ${
-                    UserService.getUser().role === "SUPER" && "disabled"
-                  } cursor-pointer ${
-                    roleIs("caissier") && "disabled"
-                  } hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
-                >
-                  <span className="inline-block overflow-hidden">
-                    <FaBoxOpen className="text-5xl text-[#603d57]" />
-                  </span>
-                  <div className="ml-3">
-                    <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
-                      {dashboardInfo.totalProduct} produits(s)
-                    </h1>
-                    <h2 className="text-sm font-bold text-[#603d57]">
-                      Gestion des produits
-                    </h2>
-                  </div>
-                </Link>
-              )}
+                  <Link
+                    to="/products"
+                    className={`bg-white ${UserService.getUser().role === "SUPER" && "disabled"
+                      } cursor-pointer ${roleIs("caissier") && "disabled"
+                      } hover:shadow-lg transition p-4 rounded-md flex justify-start items-start`}
+                  >
+                    <span className="inline-block overflow-hidden">
+                      <FaBoxOpen className="text-5xl text-[#603d57]" />
+                    </span>
+                    <div className="ml-3">
+                      <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
+                        {dashboardInfo.totalProduct} produits(s)
+                      </h1>
+                      <h2 className="text-sm font-bold text-[#603d57]">
+                        Gestion des produits
+                      </h2>
+                    </div>
+                  </Link>
+                )}
 
               {((!roleIs("admin") && !roleIs("super")) ||
                 companiesStore.currentCompany) && (
-                <Link
-                  to="/customers"
-                  className={`bg-white ${
-                    UserService.getUser().role === "SUPER" && "disabled"
-                  } cursor-pointer hover:shadow-lg ${
-                    roleIs("caissier") && "disabled"
-                  } transition p-4 rounded-md flex justify-start items-start`}
-                >
-                  <span className="inline-block overflow-hidden">
-                    <FaUsers className="text-5xl text-[#603d57]" />
-                  </span>
-                  <div className="ml-3">
-                    <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
-                      {dashboardInfo.totalCustomer} Client(s)
-                    </h1>
-                    <h2 className="text-sm font-bold text-[#603d57]">
-                      Gestion des clients
-                    </h2>
-                  </div>
-                </Link>
-              )}
+                  <Link
+                    to="/customers"
+                    className={`bg-white ${UserService.getUser().role === "SUPER" && "disabled"
+                      } cursor-pointer hover:shadow-lg ${roleIs("caissier") && "disabled"
+                      } transition p-4 rounded-md flex justify-start items-start`}
+                  >
+                    <span className="inline-block overflow-hidden">
+                      <FaUsers className="text-5xl text-[#603d57]" />
+                    </span>
+                    <div className="ml-3">
+                      <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
+                        {dashboardInfo.totalCustomer} Client(s)
+                      </h1>
+                      <h2 className="text-sm font-bold text-[#603d57]">
+                        Gestion des clients
+                      </h2>
+                    </div>
+                  </Link>
+                )}
 
               {((!roleIs("admin") && !roleIs("super")) ||
                 companiesStore.currentCompany) && (
-                <Link
-                  to="/orders"
-                  className={`bg-white ${
-                    UserService.getUser().role === "SUPER" && "disabled"
-                  } cursor-pointer hover:shadow-lg transition p-4 ${
-                    roleIs("caissier") && "disabled"
-                  } rounded-md flex justify-start items-start`}
-                >
-                  <span className="inline-block overflow-hidden">
-                    <BsShop className="text-5xl text-[#603d57]" />
-                  </span>
-                  <div className="ml-3 mr-2">
-                    <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
-                      {dashboardInfo.totalOrder} Commande(s)
-                    </h1>
-                    <h2 className="text-sm font-bold text-[#603d57]">
-                      Gestion des commandes
-                    </h2>
-                  </div>
-                </Link>
-              )}
+                  <Link
+                    to="/orders"
+                    className={`bg-white ${UserService.getUser().role === "SUPER" && "disabled"
+                      } cursor-pointer hover:shadow-lg transition p-4 ${roleIs("caissier") && "disabled"
+                      } rounded-md flex justify-start items-start`}
+                  >
+                    <span className="inline-block overflow-hidden">
+                      <BsShop className="text-5xl text-[#603d57]" />
+                    </span>
+                    <div className="ml-3 mr-2">
+                      <h1 className="text-2xl font-bold text-gray-600 pb-1 border-b-2">
+                        {dashboardInfo.totalOrder} Commande(s)
+                      </h1>
+                      <h2 className="text-sm font-bold text-[#603d57]">
+                        Gestion des commandes
+                      </h2>
+                    </div>
+                  </Link>
+                )}
             </div>
           </div>
         </div>

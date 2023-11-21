@@ -1,5 +1,6 @@
 {
   "name": "front",
+  "homepage":"https://competent-hamilton.212-227-211-20.plesk.page/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
